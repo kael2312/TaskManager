@@ -103,8 +103,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
 
-    SeedData(app);
+
+SeedData(app);
 
 //Seed Data
 void SeedData(IHost app)
@@ -123,6 +125,7 @@ app.UseHttpsRedirection();
 app.UseCors(c => c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
 app.UseAuthorization();
+
 
 app.MapControllers();
 
