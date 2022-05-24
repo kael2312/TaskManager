@@ -10,9 +10,9 @@ namespace TaskManager.Identity
         [NotMapped]
         public string Token { get; set; }
 
-        //[NotMapped]
-        //public string Role { get; set; }
-        
+        [NotMapped]
+        public string Role { get; set; }
+
     }
 }
 

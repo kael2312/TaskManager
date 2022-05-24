@@ -1,0 +1,21 @@
+<div class="container-fluid  w-50">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Project Name</th>
+            <th scope="col">Date of Start</th>
+            <th scope="col">Team Size</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let project of listProjects">
+            <th scope="row">{{project.projectID}}</th>
+            <td>{{project.projectName}}</td>
+            <td>{{project.dateOfStart}}</td>
+            <td>{{project.teamSize}}</td>
+          </tr>
+          
+        </tbody>
+      </table>
+</div>
