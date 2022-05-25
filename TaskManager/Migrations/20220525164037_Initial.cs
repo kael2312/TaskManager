@@ -49,7 +49,7 @@ namespace TaskManager.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClientLocation",
+                name: "ClientLocations",
                 columns: table => new
                 {
                     ClientLocationID = table.Column<int>(type: "int", nullable: false)
@@ -58,7 +58,7 @@ namespace TaskManager.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClientLocation", x => x.ClientLocationID);
+                    table.PrimaryKey("PK_ClientLocations", x => x.ClientLocationID);
                 });
 
             migrationBuilder.CreateTable(
@@ -183,12 +183,35 @@ namespace TaskManager.Migrations
                 {
                     table.PrimaryKey("PK_Projects", x => x.ProjectID);
                     table.ForeignKey(
-                        name: "FK_Projects_ClientLocation_ClientLocationID",
+                        name: "FK_Projects_ClientLocations_ClientLocationID",
                         column: x => x.ClientLocationID,
-                        principalTable: "ClientLocation",
+                        principalTable: "ClientLocations",
                         principalColumn: "ClientLocationID",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "ClientLocations",
+                columns: new[] { "ClientLocationID", "ClientLocationName" },
+                values: new object[,]
+                {
+                    { 1, "Boston" },
+                    { 2, "New Delhi" },
+                    { 3, "New Jersy" },
+                    { 4, "New York" },
+                    { 5, "London" },
+                    { 6, "Tokyo" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Projects",
+                columns: new[] { "ProjectID", "Active", "ClientLocationID", "DateOfStart", "ProjectName", "Status", "TeamSize" },
+                values: new object[] { 1, true, 2, new DateTime(2017, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Hospital Management System", "In Force", 14 });
+
+            migrationBuilder.InsertData(
+                table: "Projects",
+                columns: new[] { "ProjectID", "Active", "ClientLocationID", "DateOfStart", "ProjectName", "Status", "TeamSize" },
+                values: new object[] { 2, true, 1, new DateTime(2018, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), "Reporting Tool", "Support", 81 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -262,7 +285,7 @@ namespace TaskManager.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "ClientLocation");
+                name: "ClientLocations");
         }
     }
 }

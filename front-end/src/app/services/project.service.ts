@@ -21,4 +21,30 @@ export class ProjectService {
                 )
             );
     }
+
+    searchProject(searchBy: string, searchText: string): Observable<ProjectModel[]> {
+        const searchUrl = this.url + `/search/${searchBy}/${searchText}`        
+        return this.httpClient
+            .get<ProjectModel[]>(searchUrl)
+            .pipe(
+                map((result) =>
+                    result.map((project) => new ProjectModel(project))
+                )
+            )
+    }
+
+    addProject(data: ProjectModel): Observable<ProjectModel> {
+        return this.httpClient
+            .post<ProjectModel>(this.url, data)
+    }
+
+    updateProject(data: ProjectModel): Observable<ProjectModel> {
+        return this.httpClient
+            .put<ProjectModel>(this.url, data)
+    }
+
+    deleteProject(projectID: number): Observable<number>{
+        return this.httpClient
+            .delete<number>(this.url + `?ProjectID=${projectID}`)
+    }
 }

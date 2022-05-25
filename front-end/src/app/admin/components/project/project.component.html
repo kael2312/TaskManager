@@ -1,21 +1,128 @@
-<div class="container-fluid  w-50">
-    <table class="table">
+<div class="container-fluid  w-75">
+    <div class="d-flex justify-content-between">
+        <div>
+            <button class="btn btn-primary" (click)="onOpenModalProjectForm(modalProjectForm)">Add</button>
+        </div>
+        <form class="d-flex flex-row gap-2 w-50" [formGroup]="searchForm">
+            <div class="w-100">
+                <select formControlName="searchBy" class="form-select" id="validationDefault04" required>
+                    <option selected disabled value="">Choose...</option>
+                    <option value="ProjectID">Project ID</option>
+                    <option value="ProjectName">Project Name</option>
+                    <option value="TeamSize">Team Size</option>
+                </select>
+            </div>
+            <div class="input-group mb-3 w-100">
+                <input type="text" formControlName="searchText" class="form-control" placeholder="Recipient's username"
+                    aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" (click)="onSearch()" type="button" id="button-addon2"><i
+                        class="bi bi-search"></i></button>
+            </div>
+        </form>
+    </div>
+    <table class="table table-danger table-striped p ">
         <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Project Name</th>
-            <th scope="col">Date of Start</th>
-            <th scope="col">Team Size</th>
-          </tr>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Project Name</th>
+                <th scope="col">Date of Start</th>
+                <th scope="col">Team Size</th>
+                <th scope="col">Client Location</th>
+                <th scope="col">Status</th>
+                <th scope="col">Actions</th>
+            </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let project of listProjects">
-            <th scope="row">{{project.projectID}}</th>
-            <td>{{project.projectName}}</td>
-            <td>{{project.dateOfStart}}</td>
-            <td>{{project.teamSize}}</td>
-          </tr>
-          
+            <tr *ngFor="let project of listProjects">
+                <th scope="row">{{project.projectID}}</th>
+                <td>{{project.projectName}}</td>
+                <td>{{project.dateOfStart | date: 'dd-MM-yyyy'}}</td>
+                <td>{{project.teamSize}}</td>
+                <td>{{project.clientLocation.clientLocationName}}</td>
+                <td>{{project.status}}</td>
+                <td>
+                    <button class="btn btn-info mx-2" (click)="onOpenModalProjectForm(modalProjectForm, project)" >Edit</button>
+                    <button class="btn btn-warning" (click)="onDeleteProject(project.projectID)">Delete</button>
+                </td>
+            </tr>
+
         </tbody>
-      </table>
+    </table>
 </div>
+
+
+
+<ng-template #modalProjectForm let-modal>
+    <div class="modal-header w-100">
+        <h4 class="modal-title" id="modal-basic-title">{{isUpdateProject ? 'Update' : 'Add'}} Project</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="projectForm">
+            <div class="row mb-3">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Project ID</label>
+                <div class="col-sm-10">
+                    <input type="number" formControlName="projectID" class="form-control" id="">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Project Name</label>
+                <div class="col-sm-10">
+                    <input type="text" formControlName="projectName" class="form-control" id="">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Date of Start</label>
+                <div class="col-sm-10">
+                    <input type="date" [value]="projectForm.get('dateOfStart')?.value | date: 'yyyy-MM-dd'" formControlName="dateOfStart"  class="form-control" id="">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Team Size</label>
+                <div class="col-sm-10">
+                    <input type="number" formControlName="teamSize" class="form-control" id="">
+                </div>
+            </div>
+            <fieldset class="row mb-3">
+                <legend class="col-form-label col-sm-2 pt-0">Radios</legend>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" formControlName="status" type="radio" name="status" id="gridRadios1" value="In Force"
+                            checked>
+                        <label class="form-check-label" for="gridRadios1">
+                            In Force
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" formControlName="status" type="radio" name="status" id="gridRadios2" value="Support">
+                        <label class="form-check-label" for="gridRadios2">
+                            Support
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="row mb-3">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Client Location</label>
+                <div class="col-sm-10">
+                    <select formControlName="clientLocationID" class="form-select" id="autoSizingSelect" (change)="abde($event)">
+                        <option selected>Choose...</option>
+                        <option [ngValue]=location.clientLocationID *ngFor="let location of listClientLocationService$ | async">{{location.clientLocationName}}</option>                        
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-10 offset-sm-2">
+                    <div class="form-check">
+                        <input formControlName="active" class="form-check-input" type="checkbox">
+                        <label class="form-check-label" for="gridCheck1">
+                            Active
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary btn-primary text-white" (click)="onSaveProject()">Save</button>
+    </div>
+</ng-template>

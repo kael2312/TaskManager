@@ -41,7 +41,7 @@ namespace TaskManager.Services
                         new Claim(ClaimTypes.Email, applicationUser.Email),
                         new Claim(ClaimTypes.Role, applicationUser.Role)
                     }),
-                    Expires = DateTime.UtcNow.AddMinutes(3),
+                    Expires = DateTime.UtcNow.AddHours(8),
                     SigningCredentials = new Microsoft.IdentityModel.Tokens.SigningCredentials(new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key), Microsoft.IdentityModel.Tokens.SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptor);

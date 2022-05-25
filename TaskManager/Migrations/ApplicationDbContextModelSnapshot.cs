@@ -234,7 +234,39 @@ namespace TaskManager.Migrations
 
                     b.HasKey("ClientLocationID");
 
-                    b.ToTable("ClientLocation");
+                    b.ToTable("ClientLocations");
+
+                    b.HasData(
+                        new
+                        {
+                            ClientLocationID = 1,
+                            ClientLocationName = "Boston"
+                        },
+                        new
+                        {
+                            ClientLocationID = 2,
+                            ClientLocationName = "New Delhi"
+                        },
+                        new
+                        {
+                            ClientLocationID = 3,
+                            ClientLocationName = "New Jersy"
+                        },
+                        new
+                        {
+                            ClientLocationID = 4,
+                            ClientLocationName = "New York"
+                        },
+                        new
+                        {
+                            ClientLocationID = 5,
+                            ClientLocationName = "London"
+                        },
+                        new
+                        {
+                            ClientLocationID = 6,
+                            ClientLocationName = "Tokyo"
+                        });
                 });
 
             modelBuilder.Entity("TaskManager.Models.Project", b =>
@@ -267,6 +299,28 @@ namespace TaskManager.Migrations
                     b.HasIndex("ClientLocationID");
 
                     b.ToTable("Projects");
+
+                    b.HasData(
+                        new
+                        {
+                            ProjectID = 1,
+                            Active = true,
+                            ClientLocationID = 2,
+                            DateOfStart = new DateTime(2017, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ProjectName = "Hospital Management System",
+                            Status = "In Force",
+                            TeamSize = 14
+                        },
+                        new
+                        {
+                            ProjectID = 2,
+                            Active = true,
+                            ClientLocationID = 1,
+                            DateOfStart = new DateTime(2018, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ProjectName = "Reporting Tool",
+                            Status = "Support",
+                            TeamSize = 81
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

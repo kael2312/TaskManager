@@ -16,7 +16,7 @@ namespace TaskManager.Models
 
         public string ProjectName { get; set; }
 
-        [DisplayFormat(DataFormatString = "d/M/yyyy")]
+        [DisplayFormat(DataFormatString = "M/d/yyyy")]
         public DateTime DateOfStart { get; set; }
 
         public int? TeamSize { get; set; }
