@@ -36,49 +36,49 @@ namespace TaskManager.Controllers
                 return NoContent();
         }
 
-        [HttpPost]
-        [Route("api/clientlocations")]
-        public ClientLocation Post([FromBody] ClientLocation clientLocation)
-        {
-            db.ClientLocations.Add(clientLocation);
-            db.SaveChanges();
+        //[HttpPost]
+        //[Route("api/clientlocations")]
+        //public ClientLocation Post([FromBody] ClientLocation clientLocation)
+        //{
+        //    db.ClientLocations.Add(clientLocation);
+        //    db.SaveChanges();
 
-            ClientLocation existingClientLocation = db.ClientLocations.Where(temp => temp.ClientLocationID == clientLocation.ClientLocationID).FirstOrDefault();
-            return clientLocation;
-        }
+        //    ClientLocation existingClientLocation = db.ClientLocations.Where(temp => temp.ClientLocationID == clientLocation.ClientLocationID).FirstOrDefault();
+        //    return clientLocation;
+        //}
 
-        [HttpPut]
-        [Route("api/clientlocations")]
-        public ClientLocation Put([FromBody] ClientLocation project)
-        {
-            ClientLocation existingClientLocation = db.ClientLocations.Where(temp => temp.ClientLocationID == project.ClientLocationID).FirstOrDefault();
-            if (existingClientLocation != null)
-            {
-                existingClientLocation.ClientLocationName = project.ClientLocationName;
-                db.SaveChanges();
-                return existingClientLocation;
-            }
-            else
-            {
-                return null;
-            }
-        }
+        //[HttpPut]
+        //[Route("api/clientlocations")]
+        //public ClientLocation Put([FromBody] ClientLocation project)
+        //{
+        //    ClientLocation existingClientLocation = db.ClientLocations.Where(temp => temp.ClientLocationID == project.ClientLocationID).FirstOrDefault();
+        //    if (existingClientLocation != null)
+        //    {
+        //        existingClientLocation.ClientLocationName = project.ClientLocationName;
+        //        db.SaveChanges();
+        //        return existingClientLocation;
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
+        //}
 
-        [HttpDelete]
-        [Route("api/clientlocations")]
-        public int Delete(int ClientLocationID)
-        {
-            ClientLocation existingClientLocation = db.ClientLocations.Where(temp => temp.ClientLocationID == ClientLocationID).FirstOrDefault();
-            if (existingClientLocation != null)
-            {
-                db.ClientLocations.Remove(existingClientLocation);
-                db.SaveChanges();
-                return ClientLocationID;
-            }
-            else
-            {
-                return -1;
-            }
-        }
+        //[HttpDelete]
+        //[Route("api/clientlocations")]
+        //public int Delete(int ClientLocationID)
+        //{
+        //    ClientLocation existingClientLocation = db.ClientLocations.Where(temp => temp.ClientLocationID == ClientLocationID).FirstOrDefault();
+        //    if (existingClientLocation != null)
+        //    {
+        //        db.ClientLocations.Remove(existingClientLocation);
+        //        db.SaveChanges();
+        //        return ClientLocationID;
+        //    }
+        //    else
+        //    {
+        //        return -1;
+        //    }
+        //}
     }
 }

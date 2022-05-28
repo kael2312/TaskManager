@@ -1,13 +1,18 @@
 <div class="w-25 mx-auto">
     <form (ngSubmit)="onSubmitLoginForm()" [formGroup]="loginForm" >
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Username</label>
-            <input formControlName="UserName" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+            <label for="exampleInputEmail1" class="form-label">Email</label>
+            <input formControlName="UserName" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" [ngClass]="{'is-invalid': loginForm.get('UserName')?.invalid && loginForm.get('UserName')?.touched }">
+            <div class="invalid-feedback">
+                This field is required
+            </div>
         </div>
         <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input formControlName="Password" type="password" class="form-control" id="exampleInputPassword1">
+            <input formControlName="Password" type="password" class="form-control" id="exampleInputPassword1" [ngClass]="{'is-invalid': loginForm.get('Password')?.invalid && loginForm.get('Password')?.touched }">
+            <div class="invalid-feedback">
+                This field is required
+            </div>
         </div>
         <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="exampleCheck1">

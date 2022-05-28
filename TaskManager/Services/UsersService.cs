@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using TaskManager.Identity;
+using TaskManager.Models;
 using TaskManager.ServiceContracts;
 using TaskManager.ViewModels;
 
@@ -55,6 +56,78 @@ namespace TaskManager.Services
             }
         }
 
-        
+        public async Task<ApplicationUser> Register(SignUpViewModel signUpViewModel)
+        {
+            ApplicationUser applicationUser = new ApplicationUser();
+            applicationUser.FirstName = signUpViewModel.PersonName.FirstName;
+            applicationUser.LastName = signUpViewModel.PersonName.LastName;
+            applicationUser.Email = signUpViewModel.Email;
+            applicationUser.PhoneNumber = signUpViewModel.Mobile;
+            applicationUser.ReceiveNewsLetters = signUpViewModel.ReceiveNewsLetters;
+            applicationUser.CountryID = signUpViewModel.CountryID;
+            applicationUser.Gender = signUpViewModel.Gender;
+            applicationUser.Role = "Member";
+            applicationUser.UserName = signUpViewModel.Email;
+
+            var result = await _applicationUserManager.CreateAsync(applicationUser, signUpViewModel.Password);
+            if (result.Succeeded)
+            {
+                if ((await _applicationUserManager.AddToRoleAsync(await _applicationUserManager.FindByNameAsync(signUpViewModel.Email), "Member")).Succeeded)
+                {
+                    var result2 = await _applicationSignInManager.PasswordSignInAsync(signUpViewModel.Email, signUpViewModel.Password, false, false);
+                    if (result2.Succeeded)
+                    {
+                        //token
+                        var tokenHandler = new JwtSecurityTokenHandler();
+                        var key = System.Text.Encoding.ASCII.GetBytes(_appSettings.Secret);
+                        var tokenDescriptor = new Microsoft.IdentityModel.Tokens.SecurityTokenDescriptor()
+                        {
+                            Subject = new ClaimsIdentity(new Claim[] {
+                        new Claim(ClaimTypes.Name, applicationUser.Id),
+                        new Claim(ClaimTypes.Email, applicationUser.Email),
+                        new Claim(ClaimTypes.Role, applicationUser.Role)
+                    }),
+                            Expires = DateTime.UtcNow.AddHours(8),
+                            SigningCredentials = new Microsoft.IdentityModel.Tokens.SigningCredentials(new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key), Microsoft.IdentityModel.Tokens.SecurityAlgorithms.HmacSha256Signature)
+                        };
+                        var token = tokenHandler.CreateToken(tokenDescriptor);
+                        applicationUser.Token = tokenHandler.WriteToken(token);
+
+                        //Skills
+                        foreach (var sk in signUpViewModel.Skills)
+                        {
+                            Skill skill = new Skill();
+                            skill.SkillName = sk.SkillName;
+                            skill.SkillLevel = sk.SkillLevel;
+                            skill.Id = applicationUser.Id;
+                            skill.ApplicationUser = null;
+                            this._db.Skills.Add(skill);
+                            this._db.SaveChanges();
+                        }
+
+                        return applicationUser;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<ApplicationUser> GetUserByEmail(string Email)
+        {
+            return await _applicationUserManager.FindByEmailAsync(Email);
+        }
+
+
     }
 }

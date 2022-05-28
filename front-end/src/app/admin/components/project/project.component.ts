@@ -1,12 +1,13 @@
 import { DatePipe, formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import {
     NgbModal,
     ModalDismissReasons,
     NgbActiveModal,
 } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
+import { markFormGroupTouched } from 'src/app/helpers/form';
 import { ClientLocationModel } from 'src/app/models/clientLocation.model';
 import { IProject, ProjectModel } from 'src/app/models/project.model';
 import { ClientLocationService } from 'src/app/services/client-location.service';
@@ -33,7 +34,8 @@ export class ProjectComponent implements OnInit {
     closeResult = '';
     listClientLocationService: ClientLocationModel[] = [];
     listClientLocationService$: Observable<ClientLocationModel[]> = new Observable();
-    isUpdateProject: boolean = false
+    isUpdateProject: boolean = false;
+    objectKeys = Object.keys;
 
     ngOnInit(): void {
         this.getListProject();
@@ -55,37 +57,56 @@ export class ProjectComponent implements OnInit {
 
     initSearchForm() {
         this.searchForm = this.fb.group({
-            searchBy: new FormControl(''),
-            searchText: new FormControl(''),
+            searchBy: new FormControl('', {
+                validators: [
+                    Validators.required
+                ]
+            }),
+            searchText: new FormControl(null, {
+                validators: [
+                    Validators.required
+                ]
+            }),
         });
     }
 
     initProjectForm(data?: ProjectModel) {
         this.projectForm = this.fb.group({
-            projectID: new FormControl(data?.projectID),
-            projectName: new FormControl(data?.projectName),
+            projectID: new FormControl(data?.projectID, {validators: [
+                Validators.required
+            ]}),
+            projectName: new FormControl(data?.projectName, {validators: [
+                Validators.required,
+                Validators.minLength(3)
+            ]}),
             dateOfStart: new FormControl(formatDate(new Date(data ? data?.dateOfStart : Date.now()), 'yyyy-MM-dd', 'en')),
-            teamSize: new FormControl(data?.teamSize),
+            teamSize: new FormControl(data?.teamSize, {validators: [
+                Validators.required
+            ]}),
             active: new FormControl(data ? data?.active : false),
-            status: new FormControl(data?.status),
-            clientLocationID: new FormControl(data?.clientLocationID),
-            clientLocation: new FormControl(new ClientLocationModel()),
+            status: new FormControl(data ? data?.status : 'In Force'),
+            clientLocationID: new FormControl(data?.clientLocationID, {validators: [
+                Validators.required
+            ]}),
+            clientLocation: new FormControl(new ClientLocationModel(), {validators: [
+                Validators.required
+            ]}),
         });
     }
 
-    abde(event: Event) {
-        const value = event.target as HTMLSelectElement;
-        console.log(value.value);
-    }
-
     onSearch() {
-        const searchBy = this.searchForm.controls['searchBy'].value;
-        const searchText = this.searchForm.controls['searchText'].value;
-        this.projectService
-            .searchProject(searchBy, searchText)
-            .subscribe((result: ProjectModel[]) => {
-                this.listProjects = result;
-            });
+        if (!this.searchForm.valid) {
+            markFormGroupTouched(this.searchForm);
+        }else{
+            const searchBy = this.searchForm.controls['searchBy'].value;
+            const searchText = this.searchForm.controls['searchText'].value;
+            this.projectService
+                .searchProject(searchBy, searchText)
+                .subscribe((result: ProjectModel[]) => {
+                    this.listProjects = result;
+                });
+        }
+        
     }
 
     onOpenModalProjectForm(content: any, dataEditProject?: ProjectModel) {
@@ -105,22 +126,27 @@ export class ProjectComponent implements OnInit {
     }
 
     onSaveProject() {
-        if (this.isUpdateProject) {
-            this.projectService
-            .updateProject(this.projectForm.getRawValue())
-            .subscribe((result) => {
-                this.getListProject();  
-            });
+        if (!this.projectForm.valid) {
+            markFormGroupTouched(this.projectForm)
         }else{
-            this.projectService
-            .addProject(this.projectForm.getRawValue())
-            .subscribe((result) => {
-                this.getListProject();    
-            });
-        }
+            if (this.isUpdateProject) {
+                this.projectService
+                .updateProject(this.projectForm.getRawValue())
+                .subscribe((result) => {
+                    this.getListProject();  
+                });
+            }else{
+                this.projectService
+                .addProject(this.projectForm.getRawValue())
+                .subscribe((result) => {
+                    this.getListProject();    
+                });
+            }
+            this.modalService.dismissAll();
+            this.projectForm.reset()
+        }     
 
-        this.modalService.dismissAll();
-                this.projectForm.reset()
+        
         
     }
 

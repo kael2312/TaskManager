@@ -50,6 +50,12 @@ namespace TaskManager.Identity
                     Id = Guid.NewGuid().ToString(),
                     UserName = "admin",
                     Email = "admin@gmail.com",
+                    FirstName = "John",
+                    LastName = "Lennon",
+                    DateOfBirth = new DateTime(1990, 5, 25),
+                    Gender = "male",
+                    CountryID = 45,
+                    ReceiveNewsLetters = true,
                     LockoutEnabled = false
                 }, "Admin123#");
                 if (result.Succeeded)

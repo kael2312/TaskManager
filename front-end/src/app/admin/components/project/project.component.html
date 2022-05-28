@@ -5,18 +5,27 @@
         </div>
         <form class="d-flex flex-row gap-2 w-50" [formGroup]="searchForm">
             <div class="w-100">
-                <select formControlName="searchBy" class="form-select" id="validationDefault04" required>
+                <select formControlName="searchBy" class="form-select"
+                    [ngClass]="{'is-invalid': searchForm.get('searchBy')?.invalid && searchForm.get('searchBy')?.touched }"
+                    id="validationDefault04" required>
                     <option selected disabled value="">Choose...</option>
                     <option value="ProjectID">Project ID</option>
                     <option value="ProjectName">Project Name</option>
                     <option value="TeamSize">Team Size</option>
                 </select>
+                <div class="invalid-feedback">
+                    Please select a valid state.
+                </div>
             </div>
-            <div class="input-group mb-3 w-100">
-                <input type="text" formControlName="searchText" class="form-control" placeholder="Recipient's username"
-                    aria-label="Recipient's username" aria-describedby="button-addon2">
+            <div class="input-group mb-3 w-100 has-validation">
+                <input type="text" formControlName="searchText" class="form-control"
+                    [ngClass]="{'is-invalid': searchForm.get('searchText')?.invalid && searchForm.get('searchText')?.touched }"
+                    placeholder="Search value" aria-label="Recipient's username" aria-describedby="button-addon2">
                 <button class="btn btn-outline-secondary" (click)="onSearch()" type="button" id="button-addon2"><i
                         class="bi bi-search"></i></button>
+                <div class="invalid-feedback">
+                    This field is required
+                </div>
             </div>
         </form>
     </div>
@@ -41,7 +50,8 @@
                 <td>{{project.clientLocation.clientLocationName}}</td>
                 <td>{{project.status}}</td>
                 <td>
-                    <button class="btn btn-info mx-2" (click)="onOpenModalProjectForm(modalProjectForm, project)" >Edit</button>
+                    <button class="btn btn-info mx-2"
+                        (click)="onOpenModalProjectForm(modalProjectForm, project)">Edit</button>
                     <button class="btn btn-warning" (click)="onDeleteProject(project.projectID)">Delete</button>
                 </td>
             </tr>
@@ -62,39 +72,60 @@
             <div class="row mb-3">
                 <label for="inputEmail3" class="col-sm-2 col-form-label">Project ID</label>
                 <div class="col-sm-10">
-                    <input type="number" formControlName="projectID" class="form-control" id="">
+                    <input type="number" formControlName="projectID" class="form-control"
+                    [ngClass]="{'is-invalid': projectForm.get('projectID')?.invalid && projectForm.get('projectID')?.touched }">
+                    <div class="invalid-feedback">
+                        This field is required                                               
+                    </div>
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="inputPassword3" class="col-sm-2 col-form-label">Project Name</label>
                 <div class="col-sm-10">
-                    <input type="text" formControlName="projectName" class="form-control" id="">
+                    <input type="text" formControlName="projectName" class="form-control" id=""
+                        [ngClass]="{'is-invalid': projectForm.get('projectName')?.invalid && projectForm.get('projectName')?.touched }">
+                    <div class="invalid-feedback">
+                        <ng-container [ngSwitch]="objectKeys(projectForm.get('projectName')?.errors!)[0]">
+                            <span *ngSwitchCase="'required'">
+                                This field is required
+                            </span>
+                            <span *ngSwitchCase="'minlength'">
+                                At least 3 character
+                            </span>
+                        </ng-container> 
+                    </div>
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="inputPassword3" class="col-sm-2 col-form-label">Date of Start</label>
                 <div class="col-sm-10">
-                    <input type="date" [value]="projectForm.get('dateOfStart')?.value | date: 'yyyy-MM-dd'" formControlName="dateOfStart"  class="form-control" id="">
+                    <input type="date" [value]="projectForm.get('dateOfStart')?.value | date: 'yyyy-MM-dd'"
+                        formControlName="dateOfStart" class="form-control" id="">
                 </div>
             </div>
             <div class="row mb-3">
                 <label for="inputPassword3" class="col-sm-2 col-form-label">Team Size</label>
                 <div class="col-sm-10">
-                    <input type="number" formControlName="teamSize" class="form-control" id="">
+                    <input type="number" formControlName="teamSize" class="form-control" id=""
+                        [ngClass]="{'is-invalid': projectForm.get('teamSize')?.invalid && projectForm.get('teamSize')?.touched }">
+                    <div class="invalid-feedback">
+                        This field is required
+                    </div>
                 </div>
             </div>
             <fieldset class="row mb-3">
-                <legend class="col-form-label col-sm-2 pt-0">Radios</legend>
+                <legend class="col-form-label col-sm-2 pt-0">Status</legend>
                 <div class="col-sm-10">
                     <div class="form-check">
-                        <input class="form-check-input" formControlName="status" type="radio" name="status" id="gridRadios1" value="In Force"
-                            checked>
+                        <input class="form-check-input" formControlName="status" type="radio" name="status"
+                            id="gridRadios1" value="In Force" checked>
                         <label class="form-check-label" for="gridRadios1">
                             In Force
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" formControlName="status" type="radio" name="status" id="gridRadios2" value="Support">
+                        <input class="form-check-input" formControlName="status" type="radio" name="status"
+                            id="gridRadios2" value="Support">
                         <label class="form-check-label" for="gridRadios2">
                             Support
                         </label>
@@ -102,12 +133,18 @@
                 </div>
             </fieldset>
             <div class="row mb-3">
-                <label for="inputPassword3" class="col-sm-2 col-form-label">Client Location</label>
+                <label for="" class="col-sm-2 col-form-label">Client Location</label>
                 <div class="col-sm-10">
-                    <select formControlName="clientLocationID" class="form-select" id="autoSizingSelect" (change)="abde($event)">
+                    <select formControlName="clientLocationID" class="form-select" id="autoSizingSelect"
+                        [ngClass]="{'is-invalid': projectForm.get('clientLocationID')?.invalid && projectForm.get('clientLocationID')?.touched }">
                         <option selected>Choose...</option>
-                        <option [ngValue]=location.clientLocationID *ngFor="let location of listClientLocationService$ | async">{{location.clientLocationName}}</option>                        
+                        <option [ngValue]=location.clientLocationID
+                            *ngFor="let location of listClientLocationService$ | async">{{location.clientLocationName}}
+                        </option>
                     </select>
+                    <div class="invalid-feedback">
+                        This field is required                        
+                    </div>
                 </div>
             </div>
             <div class="row mb-3">
@@ -123,6 +160,11 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline-primary btn-primary text-white" (click)="onSaveProject()">Save</button>
+        <button type="button" class="btn btn-outline-primary btn-primary text-white"
+            (click)="onSaveProject()">Save</button>
     </div>
+    <!-- <div>
+        {{objectKeys(projectForm.get('projectName')?.errors!)[0] | json }}
+    </div> -->
+    
 </ng-template>

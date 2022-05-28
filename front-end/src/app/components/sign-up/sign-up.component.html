@@ -1,0 +1,189 @@
+<div class="w-50 mx-auto">
+    <form class="col" (ngSubmit)="onSubmitSignUpForm()" [formGroup]="signUpForm">
+        <div class="row mb-3" formGroupName="personName">
+            <label class="col-sm-3 col-form-label">First Name</label>
+            <div class="col-sm-9">
+                <input formControlName="firstName" type="text" class="form-control" id="firstName"
+                    [ngClass]="{'is-invalid': signUpForm.get('personName')?.get('firstName')?.invalid && signUpForm.get('personName')?.get('firstName')?.touched }">
+                <div class="invalid-feedback">
+                    This field is required
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3" formGroupName="personName">
+            <label for="lastName" class="col-sm-3 col-form-label">Last Name</label>
+            <div class="col-sm-9">
+                <input formControlName="lastName" type="text" class="form-control" id="lastName"
+                    [ngClass]="{'is-invalid': signUpForm.get('personName')?.get('lastName')?.invalid && signUpForm.get('personName')?.get('lastName')?.touched }">
+                <div class="invalid-feedback">
+                    This field is required
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="password" class="col-sm-3 col-form-label">Password</label>
+            <div class="col-sm-9">
+                <input formControlName="password" type="password" class="form-control" id="password"
+                    [ngClass]="{'is-invalid': signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched }">
+                <div class="invalid-feedback">
+                    <span
+                        *ngIf="signUpForm.get('password')?.invalid && signUpForm.get('password')?.errors!['required']">
+                        This field is required
+                    </span>
+                    <span *ngIf="signUpForm.get('password')?.invalid && signUpForm.get('password')?.errors!['pattern']">
+                        Password must be at least eight characters, at least one uppercase letter, one lowercase letter,
+                        one number and one special character:
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="confirmPassword" class="col-sm-3 col-form-label">Confirm Password</label>
+            <div class="col-sm-9">
+                <input formControlName="confirmPassword" type="password" class="form-control" id="confirmPassword"
+                    [ngClass]="{'is-invalid': signUpForm.get('confirmPassword')?.invalid && signUpForm.get('confirmPassword')?.touched }">
+                <div class="invalid-feedback">
+                    <span
+                        *ngIf="signUpForm.get('confirmPassword')?.invalid && signUpForm.get('confirmPassword')?.errors!['required']">
+                        This field is required
+                    </span>
+                    <span
+                        *ngIf="signUpForm.get('confirmPassword')?.invalid && signUpForm.get('confirmPassword')?.errors!['pattern']">
+                        Confirm password must match password
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="email" class="col-sm-3 col-form-label">Email</label>
+            <div class="col-sm-9">
+                <input formControlName="email" type="email" class="form-control" id="email"
+                    [ngClass]="{'is-invalid': signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched }">
+                <div class="invalid-feedback">
+                    <span *ngIf="signUpForm.get('email')?.invalid && signUpForm.get('email')?.errors!['required']">
+                        This field is required
+                    </span>
+                    <span *ngIf="signUpForm.get('email')?.invalid && signUpForm.get('email')?.errors!['pattern']">
+                        Email invalid
+                    </span>
+                    <span *ngIf="signUpForm.get('email')?.invalid && signUpForm.get('email')?.errors!['uniqueEmail']">
+                        Email exist
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="email" class="col-sm-3 col-form-label">Mobile</label>
+            <div class="col-sm-9">
+                <input formControlName="mobile" type="text" class="form-control" id="mobile"
+                    [ngClass]="{'is-invalid': signUpForm.get('mobile')?.invalid && signUpForm.get('mobile')?.touched }">
+                <div class="invalid-feedback">
+                    This field is required
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="dateOfBirth" class="col-sm-3 col-form-label">Date of Birth</label>
+            <div class="col-sm-9">
+                <input formControlName="dateOfBirth" type="date" class="form-control" id="dateOfBirth"
+                    [ngClass]="{'is-invalid': signUpForm.get('dateOfBirth')?.invalid && signUpForm.get('dateOfBirth')?.touched }">
+                <div class="invalid-feedback">
+                    <span
+                        *ngIf="signUpForm.get('dateOfBirth')?.invalid && signUpForm.get('dateOfBirth')?.errors!['required']">
+                        This field is required
+                    </span>
+                    <span
+                        *ngIf="signUpForm.get('dateOfBirth')?.invalid && signUpForm.get('dateOfBirth')?.errors!['minAge']">
+                        At least 18 Age
+                    </span>
+                </div>
+            </div>
+        </div>
+        <fieldset class="row mb-3">
+            <legend class="col-form-label col-sm-3 pt-0">Gender</legend>
+            <div class="col-sm-9">
+                <div class="form-check">
+                    <input class="form-check-input" formControlName="gender" type="radio" name="gender" id="gridRadios1"
+                        value="male" checked>
+                    <label class="form-check-label" for="gridRadios1">
+                        Male
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" formControlName="gender" type="radio" name="gender" id="gridRadios2"
+                        value="female">
+                    <label class="form-check-label" for="gridRadios2">
+                        Female
+                    </label>
+                </div>
+            </div>
+        </fieldset>
+        <div class="row mb-3">
+            <label for="inputPassword3" class="col-sm-3 col-form-label">Country</label>
+            <div class="col-sm-9">
+                <select formControlName="country" (change)="onSelecCountry($event)" class="form-select"
+                    id="autoSizingSelect"
+                    [ngClass]="{'is-invalid': signUpForm.get('country')?.invalid && signUpForm.get('country')?.touched }">
+                    <option selected disabled value="">Choose...</option>
+                    <option *ngFor="let country of listCountries$ | async" [ngValue]="country.countryID">
+                        {{country.countryName}}
+                    </option>
+
+                </select>
+                <div class="invalid-feedback">
+                    This field is required
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-10 offset-sm-3">
+                <div class="form-check">
+                    <input formControlName="receiveLetters" class="form-check-input" type="checkbox">
+                    <label class="form-check-label" for="gridCheck1">
+                        Receive News Letters
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="exampleInputPassword1" class="col-sm-3 col-form-label">Skills</label>
+            <div class="col-sm-9" formArrayName="skills">
+                <div class="row" *ngFor="let skill of skills; let i = index" [formGroupName]="i"
+                    [ngClass]="{'mt-2': i >= 1}">
+                    <div class="col-sm-4">
+                        <input type="text" formControlName="skillName"
+                            [ngClass]="{'is-invalid': skill.get('skillName')?.invalid && skill.get('skillName')?.touched}"
+                            class="form-control" id="skillName" name="skillName" placeholder="Your Skill">
+                        <div class="invalid-feedback">
+                            This field is required
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <select class="form-select"
+                            [ngClass]="{'is-invalid': skill.get('skillLevel')?.invalid && skill.get('skillLevel')?.touched}"
+                            id="autoSizingSelect" formControlName="skillLevel">
+                            <option value="" disabled selected>Level</option>
+                            <option value="Beginner">Beginner</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Professional">Professional</option>
+                            <option value="Expert">Expert</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            This field is required
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <button (click)="onRemoveSkill(i)" class="btn btn-danger">Remove</button>
+                    </div>
+
+                </div>
+                <div class="">
+                    <button (click)="onAddSkill()" type="button" class="btn btn-success">Add</button>
+                </div>
+            </div>
+
+        </div>
+
+        <button type="submit" class="btn btn-primary float-end col-sm-4">Create Account</button>
+    </form>
+</div>
