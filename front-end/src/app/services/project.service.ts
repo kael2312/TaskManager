@@ -6,10 +6,16 @@ import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
+
     private apiUrl = environment.apiUrl;
+    public hiddenDetail: boolean = false;
     url = this.apiUrl + `/api/projects`;
     
     constructor(private httpClient: HttpClient) {}
+
+    toggleDetail(){
+        this.hiddenDetail = !this.hiddenDetail
+    }
 
     getProject(): Observable<ProjectModel[]> {
         
@@ -46,5 +52,10 @@ export class ProjectService {
     deleteProject(projectID: number): Observable<number>{
         return this.httpClient
             .delete<number>(this.url + `?ProjectID=${projectID}`)
+    }
+
+    getProjectById(projectID: number): Observable<ProjectModel>{
+        return this.httpClient
+            .get<ProjectModel>(this.url + `/searchbyprojectid/${projectID}`)
     }
 }

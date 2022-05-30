@@ -2,6 +2,7 @@
     <div class="d-flex justify-content-between">
         <div>
             <button class="btn btn-primary" (click)="onOpenModalProjectForm(modalProjectForm)">Add</button>
+            <button class="btn btn-secondary mx-2" (click)="onToggleDetail()">Hide/Show Detail</button>
         </div>
         <form class="d-flex flex-row gap-2 w-50" [formGroup]="searchForm">
             <div class="w-100">
@@ -29,35 +30,17 @@
             </div>
         </form>
     </div>
-    <table class="table table-danger table-striped p ">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Project Name</th>
-                <th scope="col">Date of Start</th>
-                <th scope="col">Team Size</th>
-                <th scope="col">Client Location</th>
-                <th scope="col">Status</th>
-                <th scope="col">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let project of listProjects">
-                <th scope="row">{{project.projectID}}</th>
-                <td>{{project.projectName}}</td>
-                <td>{{project.dateOfStart | date: 'dd-MM-yyyy'}}</td>
-                <td>{{project.teamSize}}</td>
-                <td>{{project.clientLocation.clientLocationName}}</td>
-                <td>{{project.status}}</td>
-                <td>
-                    <button class="btn btn-info mx-2"
-                        (click)="onOpenModalProjectForm(modalProjectForm, project)">Edit</button>
-                    <button class="btn btn-warning" (click)="onDeleteProject(project.projectID)">Delete</button>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
+    <div class="col-xl-12 mx-auto">
+        <div class="row">
+            <div class="col-md-4" *ngFor="let projectItem of listProjects; let i = index">
+                <app-project-item 
+                    [projectItem] = "projectItem" 
+                    (editClick)="onOpenModalProjectForm(modalProjectForm, projectItem)"
+                    (deleteClick)="onDeleteProject(projectItem.projectID)"
+                ></app-project-item>
+            </div>
+        </div>
+    </div>    
 </div>
 
 
@@ -75,7 +58,12 @@
                     <input type="number" formControlName="projectID" class="form-control"
                     [ngClass]="{'is-invalid': projectForm.get('projectID')?.invalid && projectForm.get('projectID')?.touched }">
                     <div class="invalid-feedback">
-                        This field is required                                               
+                        <span *ngIf="projectForm.get('projectID')?.invalid && projectForm.get('projectID')?.errors!['required']">
+                            This field is required
+                        </span>
+                        <span *ngIf="projectForm.get('projectID')?.invalid && projectForm.get('projectID')?.errors!['uniqueProject']">
+                            Project ID already exist
+                        </span>                                               
                     </div>
                 </div>
             </div>
@@ -85,14 +73,7 @@
                     <input type="text" formControlName="projectName" class="form-control" id=""
                         [ngClass]="{'is-invalid': projectForm.get('projectName')?.invalid && projectForm.get('projectName')?.touched }">
                     <div class="invalid-feedback">
-                        <ng-container [ngSwitch]="objectKeys(projectForm.get('projectName')?.errors!)[0]">
-                            <span *ngSwitchCase="'required'">
-                                This field is required
-                            </span>
-                            <span *ngSwitchCase="'minlength'">
-                                At least 3 character
-                            </span>
-                        </ng-container> 
+                        This field is required
                     </div>
                 </div>
             </div>

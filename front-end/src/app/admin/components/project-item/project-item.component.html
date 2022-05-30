@@ -1,0 +1,35 @@
+<div class="card">
+    <div class="card-header">
+        <h5>#{{project.projectID}}</h5>
+        <h5>{{project.projectName}}</h5>
+    </div>
+    <div class="card-body">
+    <table class="table table-borderless table-danger table-striped p " [hidden]="prjService.hiddenDetail">
+        <tr>
+            <th>Date of Start</th>
+            <td>{{project.dateOfStart}}</td>
+        </tr>
+        <tr>
+            <th>Team Size</th>
+            <td>{{project.teamSize}}</td>
+        </tr>
+        <tr>
+            <th>Client Location</th>
+            <td>{{project.clientLocation.clientLocationName}}</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td>{{project.status}}</td>
+        </tr>
+    </table>
+    </div>
+    <div class="card-footer text-muted d-flex justify-content-between">
+        <div>
+            <button class="btn btn-info mx-2" (click)="onEditProjectClick(project)">Edit</button>
+        <button class="btn btn-warning" (click)="onDeleteProjectClick(project.projectID)">Delete</button>
+        </div>
+        <div>
+            <button class="btn btn-success" (click)="onShowDetailClick(project.projectID)" >Detail</button>
+        </div>
+    </div>
+</div>

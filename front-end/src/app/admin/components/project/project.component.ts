@@ -12,6 +12,7 @@ import { ClientLocationModel } from 'src/app/models/clientLocation.model';
 import { IProject, ProjectModel } from 'src/app/models/project.model';
 import { ClientLocationService } from 'src/app/services/client-location.service';
 import { ProjectService } from 'src/app/services/project.service';
+import { CustomValidatorsService } from 'src/app/validators/custom-validators.service';
 
 @Component({
     selector: 'app-project',
@@ -23,9 +24,8 @@ export class ProjectComponent implements OnInit {
         private projectService: ProjectService,
         private fb: FormBuilder,
         private modalService: NgbModal,
-        private modalActiveService: NgbActiveModal,
         private clientLocationService: ClientLocationService,
-        private datePipe: DatePipe
+        private customValidator: CustomValidatorsService
     ) {}
 
     listProjects: ProjectModel[] = [];
@@ -72,12 +72,17 @@ export class ProjectComponent implements OnInit {
 
     initProjectForm(data?: ProjectModel) {
         this.projectForm = this.fb.group({
-            projectID: new FormControl(data?.projectID, {validators: [
-                Validators.required
-            ]}),
+            projectID: new FormControl(data?.projectID, {
+                validators: [
+                    Validators.required
+                ],
+                asyncValidators: [
+                    this.customValidator.checkExistProject()
+                ],
+                updateOn: 'blur'
+            }),
             projectName: new FormControl(data?.projectName, {validators: [
                 Validators.required,
-                Validators.minLength(3)
             ]}),
             dateOfStart: new FormControl(formatDate(new Date(data ? data?.dateOfStart : Date.now()), 'yyyy-MM-dd', 'en')),
             teamSize: new FormControl(data?.teamSize, {validators: [
@@ -168,5 +173,9 @@ export class ProjectComponent implements OnInit {
         } else {
             return `with: ${reason}`;
         }
+    }
+
+    onToggleDetail(){
+        this.projectService.toggleDetail();
     }
 }

@@ -7,18 +7,23 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" [routerLink]="['/admin/dashboard']" aria-current="page"
-                        href="#">Dashboard</a>
+                <li class="nav-item" *ngIf="userRole === 'Admin'">
+                    <a class="nav-link active" [routerLink]="['/admin/dashboard']" aria-current="page" href="#">Dashboard</a>
                 </li>
-                <li class="nav-item bg ">
-                    <a class="nav-link active" [routerLink]="['/admin/about']" aria-current="page" href="#">About</a>
+                <li class="nav-item" *ngIf="userRole === 'Admin'">
+                    <a class="nav-link active" [routerLink]="['/admin/project']" aria-current="page" href="#">Project</a>
                 </li>
-                <li class="nav-item bg ">
+                <li class="nav-item" *ngIf="userRole === 'Member'">
+                    <a class="nav-link active" [routerLink]="['/member/task']" aria-current="page" href="#">Task</a>
+                </li>
+                <li class="nav-item bg " *ngIf="userRole === 'Public'">
                     <a class="nav-link active" [routerLink]="['/login']" aria-current="page" href="#">Login</a>
                 </li>
-                <li class="nav-item bg ">
+                <li class="nav-item bg " *ngIf="userRole === 'Public'">
                     <a class="nav-link active" [routerLink]="['/sign-up']" aria-current="page" href="#">SignUp</a>
+                </li>
+                <li class="nav-item bg " *ngIf="userRole === 'Member' || userRole === 'Admin'">
+                    <a class="nav-link active" [routerLink]="['/sign-up']" aria-current="page" (click)="accService.logOut()">Logout</a>
                 </li>
             </ul>
             <form class="d-flex button" role="search">

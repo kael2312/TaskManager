@@ -12,19 +12,20 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { ResponseInterceptor } from './interceptors/response.interceptor';
 import { AuthGuard } from './guards/auth.guard';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { FilterPipe } from './pipes/filter.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    SignUpComponent
+    SignUpComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
       AuthGuard,

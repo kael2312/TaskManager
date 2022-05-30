@@ -8,13 +8,18 @@ import {
 } from '@angular/forms';
 import { map, Observable } from 'rxjs';
 import { LoggedInUserModel } from '../models/loggedInUser.model';
+import { ProjectModel } from '../models/project.model';
 import { AccountService } from '../services/account.service';
+import { ProjectService } from '../services/project.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class CustomValidatorsService {
-    constructor(private accService: AccountService) {}
+    constructor(
+        private accService: AccountService,
+        private prjService: ProjectService
+    ) {}
 
     public minimumAgeValidator(minAge: number): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {
@@ -69,5 +74,20 @@ export class CustomValidatorsService {
                 })
             );
         };
+    }
+
+    public checkExistProject(): AsyncValidatorFn {
+        return(control: AbstractControl): Observable<ValidationErrors | null> => {
+            return this.prjService.getProjectById(control.value)
+                .pipe(
+                    map((result: ProjectModel) => {
+                        if (result != null) {
+                            return { uniqueProject: {valid: false}};
+                        }else{
+                            return null
+                        }
+                    })
+                )
+        }
     }
 }

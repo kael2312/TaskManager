@@ -46,16 +46,7 @@ export class LoginComponent implements OnInit {
         } else {
             this.accService
                 .login(this.loginForm.getRawValue())
-                .subscribe((result: LoggedInUserModel) => {
-                    localStorage.setItem('token', result.token);
-                    if (jwtHelper.decodeToken(result.token).role === 'Admin') {
-                        this.route.navigateByUrl('/admin/project');
-                    } else if (
-                        jwtHelper.decodeToken(result.token).role === 'Member'
-                    ) {
-                        this.route.navigateByUrl('/member');
-                    }
-                });
+                .subscribe();
         }
     }
 }
