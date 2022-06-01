@@ -1,0 +1,68 @@
+<div class="container-fluid mx-auto w-50">
+    <form [formGroup]="taskForm" class="row g-3" (ngSubmit)="onCreateTask()">
+        <div class="col-12">
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Task Name</label>
+            <div class="col-sm-12">
+                <input type="text" formControlName="taskName" class="form-control"
+                    [ngClass]="{'is-invalid': taskForm.get('taskName')?.invalid && taskForm.get('taskName')?.touched }">
+                <div class="invalid-feedback">
+                    <span *ngIf="taskForm.get('taskName')?.invalid && taskForm.get('taskName')?.errors!['required']">
+                        This field is required
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <label for="inputPassword3" class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-12">
+                <textarea type="text" formControlName="description" class="form-control" id=""
+                    [ngClass]="{'is-invalid': taskForm.get('description')?.invalid && taskForm.get('description')?.touched }"></textarea>
+                <div class="invalid-feedback">
+                    This field is required
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label for="projectID" class="form-label">Project</label>
+            <select id="projectID" class="form-select" formControlName="projectID" 
+            [ngClass]="{'is-invalid': taskForm.get('projectID')?.invalid && taskForm.get('projectID')?.touched }"
+            >
+                <option *ngFor="let project of listProject$ | async" [ngValue]="project.projectID">{{project.projectName}}</option>
+            </select>
+            <div class="invalid-feedback">
+                This field is required
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label for="taskPriorityID" class="form-label">Priority</label>
+            <select id="taskPriorityID" class="form-select" formControlName="taskPriorityID" 
+            [ngClass]="{'is-invalid': taskForm.get('taskPriorityID')?.invalid && taskForm.get('taskPriorityID')?.touched }"
+            >
+                <option *ngFor="let taskPriority of listTaskPriorities$ | async" [ngValue]="taskPriority.taskPriorityID">{{taskPriority.taskPriorityName}}</option>
+            </select>
+            <div class="invalid-feedback">
+                This field is required
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label for="assignedTo" class="form-label">Assigned To</label>
+            <select id="assignedTo" class="form-select" formControlName="assignedTo" 
+            [ngClass]="{'is-invalid': taskForm.get('assignedTo')?.invalid && taskForm.get('assignedTo')?.touched }"
+            >
+                <option *ngFor="let user of listUser$ | async" [ngValue]="user.id">{{user.email}}</option>
+            </select>
+            <div class="invalid-feedback">
+                This field is required
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label for="taskPriorityID" class="form-label">Status</label>
+            <div class="col-sm-12">
+                <input class="form-control" type="text" placeholder="Holding" aria-label="Disabled input example" disabled>                
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>

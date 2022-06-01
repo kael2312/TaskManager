@@ -8,12 +8,17 @@ namespace TaskManager.Controllers
     public class AccountController : Controller
     {
         private readonly IUsersService _usersService;
-        
+        private readonly ApplicationSignInManager _applicationSignInManager;
+        private readonly ApplicationDbContext db;
+        private readonly ApplicationUserManager applicationUserManager;
 
-        public AccountController(IUsersService usersService)
+
+        public AccountController(IUsersService usersService, ApplicationSignInManager applicationSignManager, ApplicationDbContext db, ApplicationUserManager applicationUserManager)
         {
             this._usersService = usersService;
-            
+            this._applicationSignInManager = applicationSignManager;
+            this.db = db;
+            this.applicationUserManager = applicationUserManager;
         }
 
         [HttpPost]
@@ -58,20 +63,21 @@ namespace TaskManager.Controllers
             return Ok(user);
         }
 
-        //[Route("api/getallemployees")]
-        //public async Task<IActionResult> GetAllEmployees()
-        //{
-        //    List<ApplicationUser> users = this.db.Users.ToList();
-        //    List<ApplicationUser> employeeUsers = new List<ApplicationUser>();
+        [HttpGet]
+        [Route("api/getallemployees")]
+        public async Task<IActionResult> GetAllEmployees()
+        {
+            List<ApplicationUser> users = this.db.Users.ToList();
+            List<ApplicationUser> employeeUsers = new List<ApplicationUser>();
 
-        //    foreach (var item in users)
-        //    {
-        //        if ((await this.applicationUserManager.IsInRoleAsync(item, "Employee")))
-        //        {
-        //            employeeUsers.Add(item);
-        //        }
-        //    }
-        //    return Ok(employeeUsers);
-        //}
+            foreach (var item in users)
+            {
+                if ((await this.applicationUserManager.IsInRoleAsync(item, "Member")))
+                {
+                    employeeUsers.Add(item);
+                }
+            }
+            return Ok(employeeUsers);
+        }
     }
 }

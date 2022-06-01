@@ -225,12 +225,31 @@ namespace TaskManager.Identity
                 new Country() { CountryID = 193, CountryName = "Vatican City" },
                 new Country() { CountryID = 194, CountryName = "India" }
                 );
+
+            modelBuilder.Entity<TaskPriority>().HasData(
+                new TaskPriority() { TaskPriorityID = 1, TaskPriorityName = "Urgent" },
+                new TaskPriority() { TaskPriorityID = 2, TaskPriorityName = "Normal" },
+                new TaskPriority() { TaskPriorityID = 3, TaskPriorityName = "Below Normal" },
+                new TaskPriority() { TaskPriorityID = 4, TaskPriorityName = "Low" }
+             );
+
+            modelBuilder.Entity<Models.TaskStatus>().HasData(
+                new Models.TaskStatus() { TaskStatusID = 1, TaskStatusName = "Holding" }, //Tasks that need to be documented still
+                new Models.TaskStatus() { TaskStatusID = 2, TaskStatusName = "Prioritized" }, //Tasks that are placed in priority order; so need to start ASAP
+                new Models.TaskStatus() { TaskStatusID = 3, TaskStatusName = "Started" }, //Tasks that are currently working
+                new Models.TaskStatus() { TaskStatusID = 4, TaskStatusName = "Finished" }, //Tasks that are finished workng
+                new Models.TaskStatus() { TaskStatusID = 5, TaskStatusName = "Reverted" } //Tasks that are reverted back, with comments or issues
+             );
         }
 
         public DbSet<Project> Projects { get; set; }
         public DbSet<ClientLocation> ClientLocations { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Skill> Skills { get; set; }
+        public DbSet<TaskPriority> TaskPriorities { get; set; }
+        public DbSet<Models.TaskStatus> TaskStatuses { get; set; }
+        public DbSet<Models.Task> Tasks { get; set; }
+        public DbSet<TaskStatusDetail> TaskStatusDetails { get; set; }
 
 
     }

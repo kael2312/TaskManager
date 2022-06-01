@@ -25,7 +25,7 @@ export class AccountService {
                     localStorage.setItem('token', result.token);
                     this.changeCurrentUserSource(result)
                     if (jwtHelper.decodeToken(result.token).role === 'Admin') {
-                        this.route.navigateByUrl('/admin/project');
+                        this.route.navigateByUrl('/admin/dashboard');
                     } else if (
                         jwtHelper.decodeToken(result.token).role === 'Member'
                     ) {
@@ -57,5 +57,10 @@ export class AccountService {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         this.route.navigate(['/']);
+    }
+
+    getAllUser(): Observable<LoggedInUserModel[]>{
+        const url = this.apiUrl + '/api/getallemployees'
+        return this.httpClient.get<LoggedInUserModel[]>(url)
     }
 }

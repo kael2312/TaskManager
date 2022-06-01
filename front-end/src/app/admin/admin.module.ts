@@ -9,6 +9,12 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProjectItemComponent } from './components/project-item/project-item.component';
 import { FilterPipe } from '../pipes/filter.pipe';
 import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
+import { CountriesComponent } from './components/countries/countries.component';
+import { ClientLocationsComponent } from './components/client-locations/client-locations.component';
+import { TaskPrioritiesComponent } from './components/task-priorities/task-priorities.component';
+import { TaskStatusComponent } from './components/task-status/task-status.component';
+import { MastersComponent } from './components/masters/masters.component';
+import { ComponentLoaderDirective } from '../directives/component-loader.directive';
 
 @NgModule({
   declarations: [
@@ -16,7 +22,13 @@ import { ProjectDetailComponent } from './components/project-detail/project-deta
       ProjectComponent,
       ProjectItemComponent,
       FilterPipe,
-      ProjectDetailComponent
+      ProjectDetailComponent,
+      CountriesComponent,
+      ClientLocationsComponent,
+      TaskPrioritiesComponent,
+      TaskStatusComponent,
+      MastersComponent,
+      ComponentLoaderDirective
   ],
   imports: [
     CommonModule,
@@ -25,7 +37,14 @@ import { ProjectDetailComponent } from './components/project-detail/project-deta
   ],
   providers: [
       NgbActiveModal,
-      DatePipe
+      DatePipe,
+      
+  ],
+  entryComponents: [
+      CountriesComponent,
+      ClientLocationsComponent,
+      TaskPrioritiesComponent,
+      TaskStatusComponent
   ]
 })
 export class AdminModule { }

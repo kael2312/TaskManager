@@ -16,8 +16,7 @@ export class ClientLocationService {
         return this.httpClient
             .get<ClientLocationModel[]>(this.url)
             .pipe(
-                map((result) =>                 
-                
+                map((result) => 
                     result.map(clientlocation => new ClientLocationModel(clientlocation) )
                 )
                 

@@ -13,6 +13,9 @@
                 <li class="nav-item" *ngIf="userRole === 'Admin'">
                     <a class="nav-link active" [routerLink]="['/admin/project']" aria-current="page" href="#">Project</a>
                 </li>
+                <!-- <li class="nav-item" *ngIf="userRole === 'Admin'">
+                    <a class="nav-link active" [routerLink]="['/admin/masters']" aria-current="page" href="#">Masters</a>
+                </li> -->
                 <li class="nav-item" *ngIf="userRole === 'Member'">
                     <a class="nav-link active" [routerLink]="['/member/task']" aria-current="page" href="#">Task</a>
                 </li>

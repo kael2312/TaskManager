@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManager.Identity;
 
@@ -11,9 +12,10 @@ using TaskManager.Identity;
 namespace TaskManager.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220531082014_AddTaskPrioritiesAndTaskStatus")]
+    partial class AddTaskPrioritiesAndTaskStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1360,62 +1362,6 @@ namespace TaskManager.Migrations
                     b.ToTable("Skills");
                 });
 
-            modelBuilder.Entity("TaskManager.Models.Task", b =>
-                {
-                    b.Property<int>("TaskID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TaskID"), 1L, 1);
-
-                    b.Property<string>("AssignedTo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CurrentStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CurrentTaskStatusID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("LastUpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ProjectID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TaskName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TaskPriorityID")
-                        .HasColumnType("int");
-
-                    b.HasKey("TaskID");
-
-                    b.HasIndex("AssignedTo");
-
-                    b.HasIndex("CreatedBy");
-
-                    b.HasIndex("ProjectID");
-
-                    b.HasIndex("TaskPriorityID");
-
-                    b.ToTable("Tasks");
-                });
-
             modelBuilder.Entity("TaskManager.Models.TaskPriority", b =>
                 {
                     b.Property<int>("TaskPriorityID")
@@ -1496,42 +1442,6 @@ namespace TaskManager.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TaskManager.Models.TaskStatusDetail", b =>
-                {
-                    b.Property<int>("TaskStatusDetailID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TaskStatusDetailID"), 1L, 1);
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("StatusUpdationDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("TaskID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TaskStatusID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("TaskStatusDetailID");
-
-                    b.HasIndex("TaskID");
-
-                    b.HasIndex("TaskStatusID");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("TaskStatusDetails");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -1603,71 +1513,6 @@ namespace TaskManager.Migrations
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");
-                });
-
-            modelBuilder.Entity("TaskManager.Models.Task", b =>
-                {
-                    b.HasOne("TaskManager.Identity.ApplicationUser", "AssignedToUser")
-                        .WithMany()
-                        .HasForeignKey("AssignedTo")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TaskManager.Identity.ApplicationUser", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedBy")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TaskManager.Models.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TaskManager.Models.TaskPriority", "TaskPriority")
-                        .WithMany()
-                        .HasForeignKey("TaskPriorityID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AssignedToUser");
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("Project");
-
-                    b.Navigation("TaskPriority");
-                });
-
-            modelBuilder.Entity("TaskManager.Models.TaskStatusDetail", b =>
-                {
-                    b.HasOne("TaskManager.Models.Task", null)
-                        .WithMany("TaskStatusDetails")
-                        .HasForeignKey("TaskID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TaskManager.Models.TaskStatus", "TaskStatus")
-                        .WithMany()
-                        .HasForeignKey("TaskStatusID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TaskManager.Identity.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TaskStatus");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("TaskManager.Models.Task", b =>
-                {
-                    b.Navigation("TaskStatusDetails");
                 });
 #pragma warning restore 612, 618
         }

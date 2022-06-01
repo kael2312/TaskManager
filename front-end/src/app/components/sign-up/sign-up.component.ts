@@ -42,8 +42,7 @@ export class SignUpComponent implements OnInit {
 
     getListCountriesSub(){
         this.countriesService.getAll().subscribe(result => {
-            console.log(result);
-            
+            console.log(result);            
         });
     }
 

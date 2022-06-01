@@ -13,6 +13,7 @@ import { ResponseInterceptor } from './interceptors/response.interceptor';
 import { AuthGuard } from './guards/auth.guard';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { FilterPipe } from './pipes/filter.pipe';
+import { ComponentLoaderDirective } from './directives/component-loader.directive';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,8 @@ import { FilterPipe } from './pipes/filter.pipe';
     NgbModule,
     ReactiveFormsModule,
     HttpClientModule,
+  ],
+  exports: [
   ],
   providers: [
       AuthGuard,
