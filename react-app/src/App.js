@@ -5,6 +5,7 @@ import LoginPage from "./features/Auth/Login/LoginPage/login-page";
 import { Route, Routes } from "react-router-dom";
 import RegisterPage from "./features/Auth/Register/RegisterPage/register-page";
 import Project from "./features/Projects/project";
+import TaskPage from "./features/Tasks/pages/taks-page";
 
 function App() {
     return (
@@ -25,6 +26,10 @@ function App() {
                     <Route
                         path="/project"
                         element={<Project></Project>}
+                    ></Route>
+                    <Route
+                        path="/tasks"
+                        element={<TaskPage></TaskPage>}
                     ></Route>
                 </Routes>
             </div>

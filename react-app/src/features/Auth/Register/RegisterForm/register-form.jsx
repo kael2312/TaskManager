@@ -21,9 +21,9 @@ function RegisterForm(props) {
             confirmPassword: '',
             email: '',
             mobile: '',
-            dateOfBirth: '',
+            dateOfBirth: '1989-06-07',
             gender: 'male',
-            countryID: 1,
+            countryID: 12,
             receiveNewsLetters: true,
             skills: []
         }
@@ -43,7 +43,6 @@ function RegisterForm(props) {
                 <PasswordField form={form} fieldName="confirmPassword" label="Confirm Password"></PasswordField>
                 <InputField form={form} fieldName="email" label="Email" ></InputField>
                 <InputField form={form} fieldName="mobile" label="Mobile" ></InputField>
-                <InputField form={form} fieldName="dateOfBirth" label="Date of Birth" ></InputField>
 
                 <Button type="submit" variant="contained">
                     Register

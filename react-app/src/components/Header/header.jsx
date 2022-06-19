@@ -190,6 +190,20 @@ function Header(props) {
                                 </Button>
                             </>
                         )}
+                        {loggedInUser?.role === "Member" && (
+                            <>
+                                <Button
+                                    onClick={onRedirectToRegister}
+                                    sx={{
+                                        my: 2,
+                                        color: "white",
+                                        display: "block",
+                                    }}
+                                >
+                                    Task
+                                </Button>
+                            </>
+                        )}
                     </Box>
 
                     {!!loggedInUser?.id && (
