@@ -31,7 +31,7 @@ namespace TaskManager.Controllers
                     ProjectID = project.ProjectID, 
                     ProjectName = project.ProjectName, 
                     TeamSize = project.TeamSize, 
-                    DateOfStart = project.DateOfStart.ToString("MM/dd//yyyy"), 
+                    DateOfStart = project.DateOfStart.ToString("MM/dd/yyyy"), 
                     Active = project.Active, ClientLocation = project.ClientLocation, ClientLocationID = project.ClientLocationID, Status = project.Status });
             }
             return Ok(projectsViewModel);

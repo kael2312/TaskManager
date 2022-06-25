@@ -1,24 +1,92 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Stack from "@mui/material/Stack";
 import ProjectCard from "../components/ProjectCard/project-card";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import ProjectForm from "../components/ProjectForm/project-form";
+import { addProject, updateProject } from "../projectSlice";
 
 ProjectPage.propTypes = {};
 
 function ProjectPage(props) {
     const listProjectState = useSelector((state) => state.project.current);
-    console.log(listProjectState);
+    const [modal, setModal] = useState(false);
+    const [modalTitle, setModalTitle] = useState("");
+    const [editProject, setEditProject] = useState({})
+    const [isUpdateProject, setIsUpdateProject] = useState(false)
+
+    const dispatch = useDispatch()
+    const toggle = () => {
+        setModal(!modal);
+        setModalTitle("Add Project");
+        setEditProject({
+            projectID: 0 ,
+            projectName: "" ,
+            dateOfStart: "2022-06-25T04:14:20.198Z",
+            teamSize: 0 ,
+            active: true,
+            status: "In Force" ,
+            clientLocationID: 0 ,
+            clientLocation: {},
+        })
+        setIsUpdateProject(false)
+
+    };
+    const closeModal = () => {
+        setModal(false);
+    };
+
+    useEffect(() => {
+        
+    }, [listProjectState])
+
+    const onEditProject = (project) => {
+        setEditProject(project)
+        setModal(true);
+        setModalTitle("Edit Project");
+        setIsUpdateProject(true)
+    };
+
+    const onSubmitProjectForm = (value) => {
+        if (isUpdateProject) {
+            const updateValue = {...value}
+            updateValue['dateOfStart'] = "2022-06-25T04:14:20.198Z"
+            dispatch(updateProject(updateValue))
+        }else{
+            dispatch(addProject(value))
+        }
+        setModal(false);
+    };
+
+    
     return (
-        <Stack direction="row" spacing={2}>
-            {listProjectState.map((project) => {
-                return (
-                    <div key={project.projectID}>
-                        <ProjectCard  project={project}></ProjectCard>
-                    </div>
-                )
-            })}
-        </Stack>
+        <div className="flex flex-col gap-4">
+            <div>
+                <Button color="primary" onClick={toggle} className="float-left">
+                    Add Project
+                </Button>
+                <Modal isOpen={modal}>
+                    <ModalHeader toggle={toggle}>{modalTitle}</ModalHeader>
+                    <ProjectForm
+                        onSubmitProjectForm={onSubmitProjectForm}
+                        editProject={editProject}
+                    ></ProjectForm>
+                </Modal>
+            </div>
+            <div className="flex flex-row flex-wrap gap-4 w-full">
+                    {listProjectState.map((project) => {
+                        return (                                   
+                            <div className = "w-1/3"   key={project.projectID}>
+                                <ProjectCard
+                                    project={project}
+                                    onEditProject={onEditProject}
+                                ></ProjectCard>
+                            </div>
+                        );
+                    })}
+            </div>
+        </div>
     );
 }
 

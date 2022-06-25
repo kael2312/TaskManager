@@ -2,16 +2,19 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Controller } from "react-hook-form";
 import { OutlinedInput, InputLabel, FormControl } from "@mui/material";
+import Select from "@mui/material/Select";
+import MenuItem from '@mui/material/MenuItem';
 
-InputField.propTypes = {
+SelectField.propTypes = {
     form: PropTypes.object.isRequired,
     fieldName: PropTypes.string.isRequired,
     label: PropTypes.string,
-    type: PropTypes.string
+    data: PropTypes.array,
 };
 
-function InputField(props) {
-    const { form, fieldName, label, type } = props;
+function SelectField(props) {
+    const { form, fieldName, label, data } = props;
+    console.log(data);
 
     return (
         <div>
@@ -26,12 +29,16 @@ function InputField(props) {
                         <InputLabel htmlFor="outlined-adornment-password">
                             {label}
                         </InputLabel>
-                        <OutlinedInput
+                        <Select
                             label={label}
                             {...field}
-                            type={type}
-                        />
-
+                        >
+                            {
+                                data.map(item => {
+                                   return <MenuItem value={item.clientLocationID} key={item.clientLocationID}>{item.clientLocationName}</MenuItem>
+                                })
+                            }                         
+                        </Select>
                     </FormControl>
                 )}
             />
@@ -39,4 +46,4 @@ function InputField(props) {
     );
 }
 
-export default InputField;
+export default SelectField;
