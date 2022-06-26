@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import projectAPI from "../../api/project.api";
 
 export const getListProject = createAsyncThunk("project/getListProject", async () => {
-    const response = await projectAPI.getListProject()
+    const response = await projectAPI.getProjects()
     return response
 })
 

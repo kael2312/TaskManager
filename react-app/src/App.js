@@ -6,6 +6,7 @@ import { Route, Routes } from "react-router-dom";
 import RegisterPage from "./features/Auth/Register/RegisterPage/register-page";
 import Project from "./features/Projects/project";
 import TaskPage from "./features/Tasks/pages/taks-page";
+import Task from "./features/Tasks/task";
 
 function App() {
     return (
@@ -29,7 +30,7 @@ function App() {
                     ></Route>
                     <Route
                         path="/tasks"
-                        element={<TaskPage></TaskPage>}
+                        element={<Task></Task>}
                     ></Route>
                 </Routes>
             </div>

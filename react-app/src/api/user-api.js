@@ -9,6 +9,11 @@ const userApi = {
     login(data){
         const url = '/authenticate';
         return axiosClient.post(url, data)
+    },
+
+    getUsers(){
+        const url = '/api/getallemployees'
+        return axiosClient.get (url)
     }
 }
 

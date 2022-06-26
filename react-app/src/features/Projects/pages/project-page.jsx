@@ -74,10 +74,10 @@ function ProjectPage(props) {
                     ></ProjectForm>
                 </Modal>
             </div>
-            <div className="flex flex-row flex-wrap gap-4 w-full">
+            <div className="grid grid-cols-3 gap-4">
                     {listProjectState.map((project) => {
                         return (                                   
-                            <div className = "w-1/3"   key={project.projectID}>
+                            <div  key={project.projectID}>
                                 <ProjectCard
                                     project={project}
                                     onEditProject={onEditProject}

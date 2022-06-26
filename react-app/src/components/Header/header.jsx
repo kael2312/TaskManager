@@ -52,6 +52,10 @@ function Header(props) {
         navigate("register");
     };
 
+    const onRedirectToTask = () => {
+        navigate("tasks")
+    }
+
     const onLogout = async () => {
         try {
             const user = await dispatch(logout());
@@ -193,7 +197,7 @@ function Header(props) {
                         {loggedInUser?.role === "Member" && (
                             <>
                                 <Button
-                                    onClick={onRedirectToRegister}
+                                    onClick={onRedirectToTask}
                                     sx={{
                                         my: 2,
                                         color: "white",

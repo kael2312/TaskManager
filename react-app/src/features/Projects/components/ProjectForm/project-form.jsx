@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { useForm } from "react-hook-form";
-import InputField from "../../../../components/Controls/InputField/input-field";
+import { InputLabel } from "@mui/material";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormLabel from "@mui/material/FormLabel";
+import MenuItem from "@mui/material/MenuItem";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import clientLocationAPI from "../../../../api/clientLocation-api";
-import { Controller } from "react-hook-form";
 import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import { OutlinedInput, InputLabel } from "@mui/material";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { Button, ModalBody, ModalFooter } from "reactstrap";
+import clientLocationAPI from "../../../../api/clientLocation-api";
+import InputField from "../../../../components/Controls/InputField/input-field";
 
 ProjectForm.propTypes = {
     onSubmitProjectForm: PropTypes.func,

@@ -21,6 +21,8 @@ function LoginPage(props) {
             const result = unwrapResult(user)
             if (result.role === 'Admin') {
                 navigate('../project')
+            }else if(result.role === 'Member'){
+                navigate('../tasks')
             }
 
         } catch (error) {

@@ -2,7 +2,7 @@ import { addProject } from "../features/Projects/projectSlice"
 import axiosClient from "./axiosClient"
 
 const projectAPI = {
-    getListProject(){
+    getProjects(){
         const url = '/api/projects'
         return axiosClient.get(url)
     },
