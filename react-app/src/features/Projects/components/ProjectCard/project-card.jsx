@@ -36,7 +36,7 @@ function ProjectCard(props) {
             <CardBody>
                 <Table borderless size="xl">
                     <tbody>
-                        <tr>
+                        {/* <tr>
                             <th
                                 scope="row"
                                 style={{ float: "left", marginRight: "50px" }}
@@ -46,7 +46,7 @@ function ProjectCard(props) {
                             <td style={{ float: "right" }}>
                                 {project.dateOfStart}
                             </td>
-                        </tr>
+                        </tr> */}
                         <tr>
                             <th scope="row" style={{ float: "left" }}>
                                 Team Size

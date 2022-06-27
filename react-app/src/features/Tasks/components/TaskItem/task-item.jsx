@@ -56,7 +56,7 @@ function TaskItem(props) {
     }
 
     const getTaskGroupBgCssClass = () => {
-        switch (task.taskStatusName) {
+        switch (task?.taskStatusName) {
             case "Holding":
                 return "bg-gray-800 text-white py-3";
             case "Prioritized":
@@ -73,7 +73,7 @@ function TaskItem(props) {
     };
 
     const getTaskPriorityBadgeCssClass = (taskDetail) => {
-        switch (taskDetail.taskPriority.taskPriorityName) {
+        switch (taskDetail?.taskPriority?.taskPriorityName) {
             case "Urgent":
                 return "bg-red-800 text-white py-1 px-2  rounded-lg";
             case "Normal":
@@ -88,7 +88,7 @@ function TaskItem(props) {
     };
 
     const getTaskGroupTextCssClass = (taskStatusDetail) => {
-        switch (taskStatusDetail.taskStatus.taskStatusName) {
+        switch (taskStatusDetail?.taskStatus?.taskStatusName) {
             case "Holding":
                 return " text-gray-800 ";
             case "Prioritized":
@@ -108,7 +108,7 @@ function TaskItem(props) {
         <div>
             <Card>
                 <div className={getTaskGroupBgCssClass()}>
-                    {task.taskStatusName}
+                    {task?.taskStatusName}
                 </div>
                 <CardBody>
                     {task.tasks.map((taskDetail, index) => {
@@ -116,7 +116,7 @@ function TaskItem(props) {
                             <Card key={index}>
                                 <CardHeader className="text-left ">
                                     <span className="mr-2">
-                                        {taskDetail.taskName}
+                                        {taskDetail?.taskName}
                                     </span>
                                     <span
                                         className={getTaskPriorityBadgeCssClass(
@@ -124,14 +124,14 @@ function TaskItem(props) {
                                         )}
                                     >
                                         {
-                                            taskDetail.taskPriority
+                                            taskDetail?.taskPriority
                                                 ?.taskPriorityName
                                         }
                                     </span>
                                 </CardHeader>
                                 <CardBody>
                                     <div tag="h5" className="text-left">
-                                        {taskDetail.description}
+                                        {taskDetail?.description}
                                     </div>
                                     <Table
                                         borderless
@@ -143,11 +143,11 @@ function TaskItem(props) {
                                                 <td className="flex flex-row">
                                                     <BsFillFilePersonFill className="self-center mr-1" />
                                                     {
-                                                        taskDetail.createdByUser
+                                                        taskDetail?.createdByUser
                                                             ?.userName
                                                     }
                                                     <BsCalendar2Event className="self-center mr-1 ml-3" />
-                                                    {taskDetail.createdOnString}
+                                                    {taskDetail?.createdOnString}
                                                 </td>
                                             </tr>
                                         </thead>
@@ -158,7 +158,7 @@ function TaskItem(props) {
                                                     <BsPersonCheckFill className="self-center mr-1" />
                                                     {
                                                         taskDetail
-                                                            .assignedToUser
+                                                            ?.assignedToUser
                                                             ?.userName
                                                     }
                                                 </td>
@@ -168,12 +168,12 @@ function TaskItem(props) {
                                                 <td className="flex flex-row">
                                                     <BsBriefcaseFill className="self-center mr-1" />
                                                     {
-                                                        taskDetail.project
+                                                        taskDetail?.project
                                                             ?.projectName
                                                     }{" "}
                                                     - &nbsp;
                                                     {
-                                                        taskDetail.project
+                                                        taskDetail?.project
                                                             ?.clientLocation
                                                             ?.clientLocationName
                                                     }
@@ -191,13 +191,13 @@ function TaskItem(props) {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {taskDetail.taskStatusDetails.map(
+                                            {taskDetail?.taskStatusDetails.map(
                                                 (taskStatusDetail, index) => {
                                                     return (
                                                         <tr key={index}>
                                                             <th scope="row">
                                                                 {
-                                                                    taskStatusDetail.statusUpdationDateTimeString
+                                                                    taskStatusDetail?.statusUpdationDateTimeString
                                                                 }
                                                             </th>
                                                             <td
@@ -207,20 +207,20 @@ function TaskItem(props) {
                                                             >
                                                                 {
                                                                     taskStatusDetail
-                                                                        .taskStatus
-                                                                        .taskStatusName
+                                                                        ?.taskStatus
+                                                                        ?.taskStatusName
                                                                 }
                                                             </td>
                                                             <td>
                                                                 {
                                                                     taskStatusDetail
-                                                                        .user
-                                                                        .userName
+                                                                        ?.user
+                                                                        ?.userName
                                                                 }
                                                             </td>
                                                             <td>
                                                                 {
-                                                                    taskStatusDetail.description
+                                                                    taskStatusDetail?.description
                                                                 }
                                                             </td>
                                                         </tr>
@@ -235,7 +235,7 @@ function TaskItem(props) {
                                         color="secondary"
                                         onClick={() =>
                                             toggleUpdateTaskStatusForm(
-                                                taskDetail.taskID
+                                                taskDetail?.taskID
                                             )
                                         }
                                         outline

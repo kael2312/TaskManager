@@ -14,9 +14,8 @@ export const updateTaskStatus = createAsyncThunk("task/updatetaskstatus", async 
 })
 
 export const createTask = createAsyncThunk("/task/createtask", async (payload, thunkAPI) => {
-    await taskAPI.createTask(payload)
-    const dispatchResult = thunkAPI.dispatch(getListTask())
-    return dispatchResult.payload
+    const response = await taskAPI.createTask(payload)
+    return response
 })
 
 
@@ -32,7 +31,9 @@ const taskSlice = createSlice({
         });
 
         builder.addCase(createTask.fulfilled, (state, action) => {
-            state.current.push(action.payload)
+            //state.current.push(action.payload)
+            const index = state.current.findIndex(x => x.taskStatusName === 'Holding')
+            state.current[index].tasks.push(action.payload)
         });
 
         builder.addCase(updateTaskStatus.fulfilled, (state, action) => {
