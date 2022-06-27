@@ -13,61 +13,66 @@ import projectAPI from "../../../../api/project.api";
 import taskAPI from "../../../../api/task-api";
 import userApi from "../../../../api/user-api";
 import InputField from "../../../../components/Controls/InputField/input-field";
+import PropTypes from "prop-types";
 
 TaskForm.propTypes = {
-    
+    onSubmitTaskForm: PropTypes.func,
 };
 
 function TaskForm(props) {
-
-    const [listUser, setListUser] = useState([])
-    const [listTaskPriorities, setListTaskPriorities] = useState([])
-    const [listProject, setListProject] = useState([])
+    const { onSubmitTaskForm } = props;
+    const [listUser, setListUser] = useState([]);
+    const [listTaskPriorities, setListTaskPriorities] = useState([]);
+    const [listProject, setListProject] = useState([]);
     const form = useForm({
-        assignedTo: "47412b40-7598-4cd6-90dd-10cf475f66dd",
-        assignedToUser: {},
-        createdBy: "",
-        createdByUser: {},
-        createdOn: "2022-06-26T15:17:05.103Z",
-        createdOnString: "",
-        currentStatus: "",
-        currentTaskStatusID: 0,
-        description: "Create React App for Task Management",
-        lastUpdatedOn: "2022-06-26T15:17:05.103Z",
-        lastUpdatedOnString: "",
-        project: {},
-        projectID: 5,
-        taskID: 0,
-        taskName: "New Task Create React App",
-        taskPriority: {},
-        taskPriorityID: 3,
-        taskStatusDetails: []
-    })
+        defaultValues: {
+            assignedTo: "",
+            assignedToUser: {},
+            createdBy: "",
+            createdByUser: {},
+            createdOn: new Date(Date.now()),
+            createdOnString: "",
+            currentStatus: "",
+            currentTaskStatusID: 0,
+            description: "",
+            lastUpdatedOn: new Date(Date.now()),
+            lastUpdatedOnString: "",
+            project: {},
+            projectID: 0,
+            taskID: 0,
+            taskName: "",
+            taskPriority: {},
+            taskPriorityID: 0,
+            taskStatusDetails: [],
+        },
+    });
 
     useEffect(() => {
-        async function getListUser(){
-            const result = await userApi.getUsers()
-            setListUser(result)
+        async function getListUser() {
+            const result = await userApi.getUsers();
+            setListUser(result);
         }
 
-        async function getListTaskPriorities(){
-            const result = await taskAPI.getTaskPriorities()
-            setListTaskPriorities(result)
+        async function getListTaskPriorities() {
+            const result = await taskAPI.getTaskPriorities();
+            setListTaskPriorities(result);
         }
 
-        async function getListProject(){
-            const result = await projectAPI.getProjects()
-            setListProject(result)
+        async function getListProject() {
+            const result = await projectAPI.getProjects();
+            setListProject(result);
         }
 
-        getListUser()
-        getListTaskPriorities()
-        getListProject()
-    }, [listUser, listTaskPriorities, listProject])
+        getListUser();
+        getListTaskPriorities();
+        getListProject();
+    }, [listUser, listTaskPriorities, listProject]);
 
-    const onHandleSubmit = () => {
-
-    }
+    const onHandleSubmit = (value) => {
+        if (onSubmitTaskForm) {
+            onSubmitTaskForm(value);
+        }
+    };
     return (
         <form onSubmit={form.handleSubmit(onHandleSubmit)}>
             <ModalBody>
@@ -149,10 +154,7 @@ function TaskForm(props) {
                             <Select label="User" {...field}>
                                 {listUser.map((item) => {
                                     return (
-                                        <MenuItem
-                                            value={item.id}
-                                            key={item.id}
-                                        >
+                                        <MenuItem value={item.id} key={item.id}>
                                             {item.email}
                                         </MenuItem>
                                     );

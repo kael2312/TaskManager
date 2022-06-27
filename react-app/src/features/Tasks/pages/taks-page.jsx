@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Modal, ModalHeader } from 'reactstrap';
 import TaskForm from '../components/TaskForm/task-form';
 import TaskItem from '../components/TaskItem/task-item';
+import { createTask } from '../taskSlice';
 
 TaskPage.propTypes = {
 
 };
 
 function TaskPage(props) {
+    const dispatch = useDispatch()
     const [listTask, setListTask] = useState([])
     const [modal, setModal] = useState(false)
     const listTaskState = useSelector(state => state.task.current) 
-
 
     useEffect(() => {
             setListTask(listTaskState)  
@@ -20,6 +21,11 @@ function TaskPage(props) {
 
     const toggle = () => {
         setModal(!modal)
+    }
+
+    const onSubmitTaskForm = (value) => {
+        dispatch(createTask(value))
+        setModal(false)
     }
 
     return (
@@ -30,7 +36,7 @@ function TaskPage(props) {
                 </Button>
                 <Modal isOpen={modal}>
                     <ModalHeader toggle={toggle}>Add Task</ModalHeader>
-                    <TaskForm></TaskForm>
+                    <TaskForm onSubmitTaskForm={onSubmitTaskForm}></TaskForm>
                 </Modal>
             </div>
         <div className='grid grid-cols-2 gap-4'>

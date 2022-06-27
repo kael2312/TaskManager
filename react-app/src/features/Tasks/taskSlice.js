@@ -13,9 +13,10 @@ export const updateTaskStatus = createAsyncThunk("task/updatetaskstatus", async 
     return dispatchResult.payload
 })
 
-export const addProject = createAsyncThunk("/project/addProject", async (payload) => {
-    const response = await projectAPI.addProject(payload)
-    return response
+export const createTask = createAsyncThunk("/task/createtask", async (payload, thunkAPI) => {
+    await taskAPI.createTask(payload)
+    const dispatchResult = thunkAPI.dispatch(getListTask())
+    return dispatchResult.payload
 })
 
 
@@ -30,7 +31,7 @@ const taskSlice = createSlice({
             state.current = action.payload
         });
 
-        builder.addCase(addProject.fulfilled, (state, action) => {
+        builder.addCase(createTask.fulfilled, (state, action) => {
             state.current.push(action.payload)
         });
 

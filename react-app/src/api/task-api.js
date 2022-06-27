@@ -19,6 +19,11 @@ const taskAPI = {
     getTaskPriorities(){
         const url = '/api/taskpriorities'
         return axiosClient.get(url)
+    },
+
+    createTask(data){
+        const url = '/api/createtask'
+        return axiosClient.post(url, data)
     }
 } 
 
